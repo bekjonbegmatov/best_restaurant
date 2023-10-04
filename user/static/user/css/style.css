@@ -1,0 +1,11 @@
+body {
+    background-color: rgba(0, 0, 0, 0.89);
+    color: aliceblue;
+}
+::selection{
+    background: rgba(21, 141, 21, 0.535);
+}
+.main_menu_sign_ip{
+    text-align: center;
+    margin-left: 20%;
+}

@@ -1,0 +1,28 @@
+{% extends 'main_page/layaut.html' %}
+{% load static %}
+{% block css_file %}
+<link rel="stylesheet" type="text/css" href="{% static 'user/css/style.css' %}">
+{% endblock css_file %}
+
+
+{% block content %}
+<div class="row main_menu_sign_ip">
+    <div class="col-4 ">
+        Log In
+        <br>
+        <form action="" method="post">
+            <h3 style="color: crimson;">{{ error }}</h3>
+            <p>User name</p>
+            {{ form.username }}
+            <br/>
+            <p>Password</p>
+            {{ form.password }}
+            <br/>
+            Нет аккаунта<a href="{% url 'user' %}">Регистрация</a><br>
+            {% csrf_token %}
+            <button class='btn btn-outline-secondary' type="submit">Log In</button>
+        </form>
+    </div>
+
+</div>
+{% endblock content %}

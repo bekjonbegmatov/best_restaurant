@@ -1,0 +1,82 @@
+{% extends 'main_page/layaut.html' %}
+
+{% load static %}
+{% block css_file %}
+<link rel="stylesheet" type="text/css" href="{% static 'main_page/css/style.css' %}">{% endblock css_file %}
+{% block content %}
+<div class="main_page container">
+    <div class="row">
+        {% if basket|length == 0 %}
+        <h1>You don't have any order ! <br />
+            Pleas go to the <a href="{% url 'main' %}">main</a>page and order !
+        </h1>
+        {% else %}
+        <h1 class="text-center text-xl mb-2">{{ user.username }} has {{ basket.count }} order{{ basket.count|pluralize}}
+        </h1>
+        <table border="1px">
+            <thead class="alert alert-success">
+                <tr>
+                    <td>Meal</td>
+                    <td>Quantity</td>
+                    <td>Price</td>
+                    <td>Delete</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in basket %}
+                <tr class="alert alert-dark">
+                    <td>{{ order.meal_name }}</td>
+                    <td>
+                        <button class="btn btn-outline-danger">
+                            -
+                        </button>
+                        <b id="quantity_label">{{ order.quantity }}</b>
+                        <button class="btn btn-outline-success">
+                            +
+                        </button>
+                    </td>
+                    <td>{{ order.price }}</td>
+                    <td>
+                        <button onclick="deleteOrder('{{ order.id }}')" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <br>
+        <a class="btn btn-success" href="https://my.qiwi.com/Aleksandr-SH6tr1cfn5"> оплатить (Qiwi)</a>
+    </div>
+    <script>
+        function deleteOrder(orderId ) {
+            let url = `http://127.0.0.1:8000/delete/${orderId}`
+            let csrftoken = '{{ csrf_token }}';
+
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to delete order');
+                    }
+                })
+                .then(data => {
+                    console.log(data.message);
+                    // Обновите ваш интерфейс, чтобы отобразить, что заказ был успешно удален
+                    window.location.reload()
+                })
+                .catch(error => {
+                    console.error(error);
+                    // Обработайте ошибку удаления заказа
+                });
+        }
+    </script>
+
+</div>
+
+{% endblock content %}

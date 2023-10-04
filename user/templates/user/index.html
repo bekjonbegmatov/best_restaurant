@@ -1,0 +1,31 @@
+{% extends 'main_page/layaut.html' %}
+{% load static %}
+{% block css_file %}
+<link rel="stylesheet" type="text/css" href="{% static 'user/css/style.css' %}">
+{% endblock css_file %}
+
+
+{% block content %}
+<div class="row main_menu_sign_ip">
+    <div class="col-4 ">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <h2>Sign Up</h2>
+            <p>User name</p>
+            {{ form.username }}
+            <br><br>
+            <p>Password</p>
+            {{ form.password1 }}
+            <br><br>
+            <p>Confirm password</p>
+            {{ form.password2 }}
+            <br>
+            <br>
+            <h3 style="color: crimson;">{{ error }}</h3>
+            Уже есть <a href="{% url 'login' %}">аккаунт</a><br>
+            <input  class='btn btn-outline-secondary'  type="submit" value="Register" />
+    </div>
+
+    </form>
+</div>
+{% endblock content %}

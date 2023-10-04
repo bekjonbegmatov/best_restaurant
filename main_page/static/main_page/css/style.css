@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap');
+body {
+    background-color: rgba(0, 0, 0, 0.89);
+    color: aliceblue;
+}
+::selection{
+    background: rgba(21, 141, 21, 0.535);
+}
+.animation_text{
+    text-align: center;
+    margin-top: 20%;
+    margin-bottom: 20%;
+}
+.main_page{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.smaltext{
+    color: rgba(127, 180, 127, 0.943);
+}
+.button_biz{
+    background : none;
+    color: rgb(255, 255, 255);
+    border-color: aliceblue;
+    padding: 5px;
+    width: 150px;
+    margin-top: 20px;
+    margin-left: 10px;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+}
+.button_biz:hover{
+    animation-name: buttons;
+    animation-duration: 1s;
+    /* position: absolute; */
+    background-color: rgba(127, 180, 127, 0.943);
+}
+@keyframes buttons{
+    from{background-color: rgba(255, 255, 255, 0);}
+    to{background-color: rgba(127, 180, 127, 0.943);}
+}
+.text_main{
+    font-size: 50px;
+    font-family: 'Oswald', sans-serif;
+}
+.second_phone{
+    color: rgba(127, 180, 127, 0.943);
+}
+.cartatogo{
+    text-align: left;
+    margin-top: 100px;
+}
+.vidileniya{
+    color: rgba(127, 180, 127, 0.943);
+}

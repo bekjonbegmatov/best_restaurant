@@ -1,0 +1,154 @@
+{% extends 'main_page/layaut.html' %}
+
+{% load static %}
+{% block css_file %}
+<link rel="stylesheet" type="text/css" href="{% static 'main_page/css/style.css' %}">{% endblock css_file %}
+{% block content %}
+<div class="main_page">
+    {% comment %} <h1 class='text-4xl'>Hello Behruz {% lorem 1 b random %}<h1> {% endcomment %}
+            <div class="animation_text">
+                <h1 class="text_main">
+                    БЛЮДА ИЗ НАШЕГО МЕНЮ <br> С ДОСТАВКОЙ ПО Г. УЛАН-УДЭ
+                </h1>
+                <br>
+                <i class="smaltext">выберите какие блюда приготовить для вас сегодня</i>
+                <br>
+                <br>
+                <button class="button_biz">Biznes</button>
+                <button class="button_biz">Main Menu</button>
+            </div>
+            
+            <div>
+
+                <div class="container text-center">
+                    <div>
+                        <h1>ГОСТИ РЕКОМЕНДУЮТ :</h1>
+                        <b><i class="fa fa-sliders" style="font-size:16px"></i> По цене</b>
+                        <b><i class="fa fa-sliders" style="font-size:16px"></i> По названию</b>
+                    </div>
+                    <br>
+                    <div class="row">
+                        {% for meal in meals %}
+                        <div class="col-4">
+                            <div class="card mb-2 drop-shadow-md bg-dark cartatogo" style="width: 400px; ">
+                                <img src="{{ meal.img.url }}" class="card-img-top" style="height: 24rem;">
+                                <div class="card-body">
+                                    <h2 class="bold text-xl" name='meal_name'>{{ meal.meal_name }} {{ meal.id }}</h2>
+                                    {% if meal.description %}
+                                    <br>
+                                    <p class="description">{{ meal.description }}</p>
+                                    {% endif %}
+                                    <b>Price : {{ meal.pice }}</b>
+                                    <br>
+                                    <form method="post" action="{% url 'create_order' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <input type="hidden" name="meal_id" value="{{ meal.id }}">
+                                        <input type="hidden" name="narhi" value="{{ meal.pice }}">
+                                        <input type="hidden" name="meal_name" value="{{ meal.meal_name }}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <input class='btn btn-outline-success' type="submit" value="Добавить в корзину">
+                                    </form>
+                                        {% comment %} <button class="btn btn-outline-success" onclick="createOrder('{{ meal.username }}' , '{{ meal.price }}', '{{ meal.meal_name }}')">Buy</button> {% endcomment %}
+                                        {% comment %} <button class="btn btn-outline-success" type="submit" onclick="add_to_backet({{ user.id }}, {{ meal.id }}, {{ meal.pice }}, '{{ meal.meal_name }}' )" >Buy</button> {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div><br><br><br>
+
+                    <div>
+                        <button class="btn btn-outline-secondary">Загрузить еще</button>
+                    </div><br><br><br>
+                    <div id="map" style="width:1300px; height:400px"></div>
+                    <br><br><br>
+                    <div class="row cartatogo">
+                        <div class="col-4">
+                            <h1 >Адрес</h1>
+                            <h3 class="second_phone">ул. Набережная, 14а</h3>
+                        </div>
+                        <div class="col-4">
+                            <h1>Телефон:</h1>
+                            <h3 class="second_phone">+7 (924)456-75-00</h3>
+                            <h3 class="second_phone">+7 (3012)70-66-88</h3>
+                        </div>
+                        <div class="col-4">
+                            <h1 >Инстаграм:</h1>
+                            <h3 class="second_phone">@behruz_13_12</h3>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function add_to_backet(user_id , meal_id , price , meal_name){
+                        let url = '{% url "create_order" %}'
+                        let csrftoken = '{{ csrf_token }}';
+                        console.log(meal_id)
+                        $.ajax({ // create an AJAX call...
+                            data: {
+                                user_id : user_id , 
+                                meal_id: meal_id,
+                                pice : price , 
+                                meal_name : meal_name,
+                                quantity : '1' ,
+                                csrfmiddlewaretoken : csrftoken ,
+
+                            }, // get the form data
+                            type: 'POST', // GET or POST
+                            url: url, // the file to call
+                            success: function(response) { // on success..
+                                alert('SUCCESS')
+                            },
+                            error: function(e, x, r) { // on error..
+                                alert('ERROR!!!')
+                            }
+                        });
+                    }
+                    function createOrder(user , price, meal_name) {
+                        let url = '{% url "create_order" %}';
+                        let csrftoken = '{{ csrf_token }}';
+                    
+                        // Создаем объект данных, который будет отправлен на сервер
+                        let data = {
+                            user : user
+                            pice: price,
+                            meal_name: meal_name,
+                            quantity: '1',
+                            csrfmiddlewaretoken: csrftoken,
+                        };
+                    
+                        // Отправляем POST-запрос на сервер
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data: data,
+                            success: function (response) {
+                                if (response.status === 200) {
+                                    alert('Заказ успешно создан!');
+                                    // Если заказ успешно создан, вы можете добавить логику для обновления вашей корзины или других данных на странице.
+                                } else {
+                                    alert('Ошибка при создании заказа');
+                                }
+                            },
+                            error: function (e, x, r) {
+                                alert('Произошла ошибка при отправке запроса на сервер.');
+                            }
+                        });
+                    }
+                </script>
+                <script type="text/javascript">
+                    var map;
+                    DG.then(function () {
+                        map = DG.map('map', {
+                            // 51.81726188033582, 107.63452298497104
+                            center: [51.81726188033582, 107.63452298497104],
+                            zoom: 13
+                        });
+                        DG.marker(51.81726188033582, 107.63452298497104).addTo(map).bindPopup('Hello!');
+                        // DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я попап!');
+                    });
+                </script>
+            </div>
+
+</div>
+
+{% endblock content %}

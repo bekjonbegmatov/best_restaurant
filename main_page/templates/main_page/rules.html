@@ -1,0 +1,88 @@
+{% extends 'main_page/layaut.html' %}
+
+{% load static %}
+{% block css_file %}
+<link rel="stylesheet" type="text/css" href="{% static 'main_page/css/style.css' %}">{% endblock css_file %}
+{% block content %}
+<div class="main_page">
+            <style>
+                .vidileniya{
+                    color: rgba(127, 180, 127, 0.943);
+                }
+            </style>
+            <div class='container'>
+                <div class="row back_img">
+                    <img class="back_img" style="position: absolute;z-index: -1;opacity: 0.2; width: 1345px; margin-left: -15px;"
+                        src="https://i.pinimg.com/originals/02/99/02/0299026ae1a0156e20f94b05c6079312.jpg" 
+                        alt="">
+                    <div class="col">
+                        <br><br>
+                        <h2>Условия доставки</h2>
+                        <h4>Доставка заказов <b class="vidileniya">по основному меню</b> <br>осуществляется <b class="vidileniya">ежедневно с 10:00 до 23:00</b></h4>
+                        <br>
+                        <h4>
+                            Доставка заказов по меню <b class="vidileniya">бизнес-ланча</b>
+                            <br>
+                            осуществляется по буднямс <b class="vidileniya">12:00 до 14:00</b>
+                        </h4>
+                        <br><br>
+                    </div>
+                    <div class="col">
+                        <br><br>
+                        <h5>
+                            <i>                                
+                                Минимальная сумма заказов на доставку составляет 1000 рублей. Заказы на меньшую сумму можно
+                                забрать самовывозом по адресу ул. Набережная, 14а. <br><br>
+    
+                                Мы доставляем заказы в черте г. Улан-Удэ. Доставка для отдаленных адресов может быть платной
+                                (более точную информацию предоставит оператор при подтверждении заказа). <br><br>
+    
+                                Заказ на доставку можно оформить заранее в удобное для вас время, указав в комментарии к
+                                заказу желаемое время доставки. <br><br>
+    
+                                Если в течение 10-ти минут после оформления заказа мы вам не перезвонили, пожалуйста,
+                                свяжитесь с нами по номеру +7 (3012)70-66-88.
+                                <br><br>
+                            </i>
+                        </h5>
+                    </div>
+                    <br>
+                </div>
+                <div class='row'>
+                    <div id="map" class='' style="width:1300px; height:400px"></div>
+                    <br><br><br>
+                    <br><br><br>
+                    <div class="row cartatogo">
+                        <div class="col-4">
+                            <h1>Адрес</h1>
+                            <h3 class="second_phone">ул. Набережная, 14а</h3>
+                        </div>
+                        <div class="col-4">
+                            <h1>Телефон:</h1>
+                            <h3 class="second_phone">+7 (924)456-75-00</h3>
+                            <h3 class="second_phone">+7 (3012)70-66-88</h3>
+                        </div>
+                        <div class="col-4">
+                            <h1>Инстаграм:</h1>
+                            <h3 class="second_phone">@behruz_13_12</h3>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    let map;
+
+                    DG.then(function () {
+                        map = DG.map('map', {
+                            // 51.81726188033582, 107.63452298497104
+                            center: [51.81726188033582, 107.63452298497104],
+                            zoom: 13
+                        });
+                        DG.marker(51.81726188033582, 107.63452298497104).addTo(map).bindPopup('Hello!');
+                        // DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я попап!');
+                    });
+                </script>
+            </div>
+
+</div>
+
+{% endblock content %}
